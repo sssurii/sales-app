@@ -1,0 +1,71 @@
+models:
+  Order:
+    customer_id: integer:unsigned | null  # Foreign key to Customer table
+    table_id: integer:unsigned | null     # Foreign key to Table table
+    status: string:255                      # Order status (e.g., "open", "completed")
+    created_at: timestamp                   # Timestamp of order creation
+    updated_at: timestamp                   # Timestamp of order update
+    placed_by: string:255 | null            # Staff member who placed the order (optional)
+    served_by: string:255 | null            # Staff member who served the order (optional)
+    customer_notes: text                    # Special instructions from customer (optional)
+    internal_notes: text                    # Notes for staff regarding the order (optional)
+    sub_total: decimal:8,2                   # Total price before tax/discount
+    tax: decimal:8,2                        # Tax amount applied
+    discount: decimal:8,2 | null             # Discount amount applied (optional)
+    discount_type: string:255 | null        # Type of discount applied (optional)
+    total_price: decimal:8,2                 # Final price after tax/discount
+    payment_method: string:255             # Payment method used (e.g., "cash", "card")
+    payment_reference: string:255 | null   # Reference number for payment transaction (optional)
+    payment_received: boolean               # Flag indicating if payment received
+    relationships:
+      belongsTo: User  # Belongs to a Customer (one-to-one)
+      belongsTo: Table        # Belongs to a Table (one-to-one)
+      hasMany: OrderItem # Has many OrderItems (one-to-many)
+  OrderItem:
+    order_id: integer:unsigned  # Foreign key to Order table
+    food_item_id: integer:unsigned  # Foreign key to FoodItem table (assuming a separate table)
+    quantity: integer:unsigned     # Quantity of the food item ordered
+    price: decimal:8,2             # Price of the individual food item
+    discount: decimal:8,2 | null   # Discount applied to this item (optional)
+    discount_type: string:255 | null  # Type of discount applied (optional)
+    final_price: decimal:8,2 | null    # Price after individual discount (optional)
+    notes: text                    # Special instructions or modifications for the item (optional)
+    cooking_instructions: text     # Additional instructions for kitchen staff (optional)
+    relationships:
+      belongsTo: Order  # Belongs to an Order (one-to-one)
+      hasOne: FoodItem  # Belongs to a FoodItem (one-to-one)
+      # Additional relationships can be defined here
+
+controllers:
+  Order:
+    index:
+      query: all                             # Fetch all orders
+      render: orders.index with:orders
+    store:
+      validate: customer_id, table_id, status, sub_total, tax, total_price, payment_method  # Required fields
+      save: order                             # Save the new order
+      flash: order.id + ' order created successfully!'  # Flash success message
+      redirect: orders.index                   # Redirect back to index
+
+    # Additional functionalities (Optional)
+
+    show:  # Route to show a single order
+      query: find:id
+      argument: id
+      render: orders.show with:order
+
+    update:  # Route to update an order
+      query: find:id
+      argument: id
+      validate: all  # Validate all fields
+      save: order                             # Save the updated order
+      flash: order.id + ' order updated successfully!'  # Flash success message
+      redirect: orders.show with:order        # Redirect back to show view
+
+    destroy:  # Route to delete an order
+      query: find:id
+      argument: id
+      delete: order                            # Delete the order
+      flash: order.id + ' order deleted successfully!'  # Flash success message
+      redirect: orders.index                   # Redirect back to index
+

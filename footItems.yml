@@ -1,0 +1,42 @@
+models:
+  FoodItem:
+    name: string
+    description: text nullable  # Optional: Description for the food item
+    price: decimal:8,2  # Decimal with precision of 8 and 2 decimals
+    category: string:255 nullable  # Optional: Category for the food item
+    softDeletes: true  # Enable soft deletes for the model
+    availability: boolean # Default value for the available field
+    image: string:255 nullable  # Optional: Image URL for the food item
+controllers:
+  FoodItem:
+    index:
+      query: all  # Fetch all food items
+      render: food_items.index with:foodItems  # Render index view with food items
+
+    store:
+      validate: name, description, price, category, availability, image  # Validate all fields
+      save: foodItem  # Save the new food item
+      flash: foodItem.name + ' created successfully!'  # Flash success message
+      redirect: food_items.index  # Redirect back to index after creation
+
+    show:  # Additional route to show a single food item
+      query: find:id  # Query to find a food item
+      argument: id  # Route argument for food item ID
+      render: food_items.show with:foodItem  # Render show view with food item details
+
+# Additional functionalities (Optional)
+
+    update:  # Route to update a food item
+      query: find:id
+      argument: id
+      validate: name, description, price, category, availability, image  # Validate all fields
+      save: foodItem  # Save the updated food item
+      flash: foodItem.name + ' updated successfully!'  # Flash success message
+      redirect: food_items.show with:foodItem  # Redirect back to show view
+
+    destroy:  # Route to delete a food item
+      query: find:id
+      argument: id
+      delete: foodItem  # Delete the food item
+      flash: foodItem.name + ' deleted successfully!'  # Flash success message
+      redirect: food_items.index

@@ -10,7 +10,7 @@ services:
     container_name: sales-web
     restart: always
     ports:
-      - "5000:5000"
+      - "8080:80"
     networks:
         sales-network:
             ipv4_address: 11.11.1.1

@@ -20,9 +20,10 @@ class OrderController extends Controller
 
     public function store(OrderStoreRequest $request): RedirectResponse
     {
+        $data = $request->validated();
         $order = Order::create($request->validated());
 
-        $request->session()->flash('order.id + ' order created successfully!'', $order->id + ' order created successfully!');
+        $request->session()->flash($order->id . ' order created successfully!', $order->id . ' order created successfully!');
 
         return redirect()->route('orders.index');
     }
@@ -41,7 +42,7 @@ class OrderController extends Controller
 
         $order->save();
 
-        $request->session()->flash('order.id + ' order updated successfully!'', $order->id + ' order updated successfully!');
+        $request->session()->flash($order->id . ' order updated successfully!', $order->id . ' order updated successfully!');
 
         return redirect()->route('orders.show', [$order]);
     }
@@ -52,7 +53,7 @@ class OrderController extends Controller
 
         $order->delete();
 
-        $request->session()->flash('order.id + ' order deleted successfully!'', $order->id + ' order deleted successfully!');
+        $request->session()->flash($order->id . ' order deleted successfully!', $order->id . ' order deleted successfully!');
 
         return redirect()->route('orders.index');
     }

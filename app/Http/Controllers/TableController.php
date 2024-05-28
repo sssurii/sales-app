@@ -22,7 +22,7 @@ class TableController extends Controller
     {
         $table = Table::create($request->validated());
 
-        $request->session()->flash('table.table_number + ' table created successfully!'', $table->table_number + ' table created successfully!');
+        $request->session()->flash(table.table_number + ' table created successfully!', $table->table_number + ' table created successfully!');
 
         return redirect()->route('tables.index');
     }
@@ -41,7 +41,7 @@ class TableController extends Controller
 
         $table->save();
 
-        $request->session()->flash('table.table_number + ' table updated successfully!'', $table->table_number + ' table updated successfully!');
+        $request->session()->flash(table.table_number + ' table updated successfully!', $table->table_number + ' table updated successfully!');
 
         return redirect()->route('tables.show', [$table]);
     }
@@ -52,7 +52,7 @@ class TableController extends Controller
 
         $table->delete();
 
-        $request->session()->flash('table.table_number + ' table deleted successfully!'', $table->table_number + ' table deleted successfully!');
+        $request->session()->flash(table.table_number + ' table deleted successfully!', $table->table_number + ' table deleted successfully!');
 
         return redirect()->route('tables.index');
     }

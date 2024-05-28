@@ -24,8 +24,8 @@ class FoodItemStoreRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'between:-999999.99,999999.99'],
             'category' => ['nullable', 'string', 'max:255'],
-            'availability' => ['required'],
-            'image' => ['nullable', 'string', 'max:255'],
+            'availability' => ['required', 'boolean'],
+            'image' => ['nullable', 'image', 'max:1024'],
         ];
     }
 }

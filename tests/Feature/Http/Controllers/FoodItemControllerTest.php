@@ -57,7 +57,7 @@ test('store saves and redirects', function (): void {
     $foodItem = $foodItems->first();
 
     $response->assertRedirect(route('food_items.index'));
-    $response->assertSessionHas('foodItem.name + ' created successfully!'', $foodItem->name + ' created successfully!');
+    $response->assertSessionHas(foodItem.name + ' created successfully!', $foodItem->name + ' created successfully!');
 });
 
 

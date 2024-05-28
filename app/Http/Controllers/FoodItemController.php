@@ -21,28 +21,26 @@ class FoodItemController extends Controller
     public function store(FoodItemStoreRequest $request): RedirectResponse
     {
         $foodItem = FoodItem::create($request->validated());
+        if ($request->hasFile('image')) {
+            $foodItem->image = $request->file('image')->store('food_items');
+            $foodItem->save();
+        }
 
-        $request->session()->flash(foodItem.name + ' created successfully!', $foodItem->name + ' created successfully!');
-
-        return redirect()->route('food_items.index');
+        return redirect()->route('food_items.index')->with('success', $foodItem->name . ' created successfully!');
     }
 
     public function show(Request $request, FoodItem $foodItem): View
     {
-        $foodItems = FoodItem::find(id)->get();
-
         return view('food_items.show', compact('foodItem'));
     }
 
     public function update(FoodItemUpdateRequest $request, FoodItem $foodItem): RedirectResponse
     {
-        $foodItems = FoodItem::find(id)->get();
-
-
-        $foodItem->save();
-
-        $request->session()->flash(foodItem.name + ' updated successfully!', $foodItem->name + ' updated successfully!');
-
+        $foodItem->update($request->validated());
+        if ($request->hasFile('image')) {
+            $foodItem->image = $request->file('image')->store('food_items');
+            $foodItem->save();
+        }
         return redirect()->route('food_items.show', [$foodItem]);
     }
 

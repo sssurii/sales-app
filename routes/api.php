@@ -55,7 +55,7 @@ Route::middleware([])->group(function (){
     })->name('food_items.index');
 
     Route::post('/food-items', FoodItemController::class . '@store');
-    Route::put('/food-items/{foodItemId}', FoodItemController::class . '@update');
+    Route::post('/food-items/{foodItemId}', FoodItemController::class . '@update');
     Route::get('/food-items/{foodItemId}', function ( string|int $foodItemId) {
         return FoodItem::find($foodItemId);
     });

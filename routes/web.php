@@ -60,6 +60,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/foodItem/{foodItemId}/edit', function () {
         return Inertia::render('FoodItems/edit',  [  ]);
     })->name('foodItem.edit');
+
+    Route::get('/foodItem/{foodItemId}', function () {
+        return Inertia::render('FoodItems/show',  [  ]);
+    })->name('foodItem.show');
 });
 
 

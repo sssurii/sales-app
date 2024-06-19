@@ -57,7 +57,7 @@ console.log(foodItemId)
 
     try {
       setIsLoading(true);
-      const response = await axios.put(`/api/food-items/${foodItemId}`, formData, {
+      const response = await axios.post(`/api/food-items/${foodItemId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // Required for file uploads
         },

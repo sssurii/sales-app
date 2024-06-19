@@ -14,6 +14,13 @@ class FoodItemStoreRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'availability' => $this->availability === 'true',
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      */

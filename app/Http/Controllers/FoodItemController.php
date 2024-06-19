@@ -41,7 +41,7 @@ class FoodItemController extends Controller
             $foodItem->image = $request->file('image')->store('food_items');
             $foodItem->save();
         }
-        return redirect()->route('food_items.show', [$foodItem]);
+        return redirect()->route('foodItem.index')->with('success', $foodItem->name . ' updated successfully!');
     }
 
     public function destroy(Request $request, FoodItem $foodItem): RedirectResponse
